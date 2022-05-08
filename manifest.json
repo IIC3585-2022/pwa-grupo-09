@@ -1,6 +1,6 @@
 {
-    "name": "Hello World",
-    "short_name": "Hello",
+    "name": "Tuiter App",
+    "short_name": "Tuiter",
     "icons": [
         {
             "src": "images/128.png",
