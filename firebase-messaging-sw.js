@@ -15,9 +15,13 @@ messaging.setBackgroundMessageHandler(payload => {
     body: notification.body
   };
 
+
   //Show the notification :)
   return self.registration.showNotification(
     notificationTitle,
     notificationOptions
   );
 });
+
+
+

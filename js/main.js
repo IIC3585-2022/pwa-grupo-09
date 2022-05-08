@@ -9,10 +9,7 @@ window.onload = () => {
   };
 };
 
-
-const tokenString = document.getElementById("token");
-const errorMessage = document.getElementById("error");
-const message = document.getElementById("message");
+let Token = "";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_DT4Fw39iR9kjttt4dECEQUKAjRdqSSg",
@@ -31,25 +28,26 @@ const messaging = firebase.messaging();
 messaging
   .requestPermission()
   .then(() => {
-    message.innerHTML = "Notifications allowed";
+    //message.innerHTML = "Notifications allowed";
     return messaging.getToken();
   })
   .then(token => {
-    tokenString.innerHTML = "Token Is : " + token;
+    Token = token;
+    //tokenString.innerHTML = "Token Is : " + token;
     //subscribeTokenToTopic(token, "allUsers");
   })
   .catch(err => {
-    errorMessage.innerHTML = errorMessage.innerHTML + "; " + err;
+    //errorMessage.innerHTML = errorMessage.innerHTML + "; " + err;
     console.log("Unable to get permission to notify", err);
   });
+ 
 
 messaging.onMessage(payload => {
-  console.log("Message received. ", payload);
   const { title, ...options } = payload.notification;
+  let notification = new Notification(title, options);
+});
 
 const button = $("#tweet-btn");
-let inputs = [];
-
 const showInput = (input, user) => {
   let toBeShown = $(`
     <div id="tweet-text" class="d-flex flex-column tweet-text">
@@ -79,16 +77,26 @@ const showInput = (input, user) => {
 };
 
 button.click((e) => {
-  $('#empty-tweet').remove()
+  $('#empty-tweet').remove();
   let input = $('#tweet-input')[0].value;
   let user = $("#user_input")[0].value;
   if (input === "" && user == ""){
-    return false;
-  };
-  showInput(input, user);
+    return false};
+  
   $('#tweet-input')[0].value = "";
   $("#user_input")[0].value = "";
-  post_tweet(user, input, 'asdgfhjgfds');
+  post_tweet(user, input, Token);
+
   return true;
 
 });
+
+fetch('http://localhost:5000/tweets',{
+  method: 'get'
+  }).then(response => response.json())
+  .then(json =>{
+    json.map(tweet => showInput(tweet.tweet,tweet.user) )  
+  })
+  .catch((err)=>{
+      console.log('An error occurred while retrieving token. ', err);
+  });
