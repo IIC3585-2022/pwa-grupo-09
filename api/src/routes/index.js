@@ -2,7 +2,7 @@ const {Router} = require('express');
 const router = Router();
 const axios = require('axios');
 
-let tweets = [{user:'jose', tweet: 'nublado'}];
+let tweets = [];
 let tokens = [];
 
 router.get('/tweets', (req,res)=>{
@@ -13,10 +13,10 @@ router.get('/tweets', (req,res)=>{
 router.post('/tweets/post',(req, res)=>{
     const {user, tweet, token} = req.body;
     tweets.push({user, tweet});
-    if(!tokens.some(element=>element.user==user)){
+    if(!tokens.some(element => element.user == user)){
         tokens.push({user, token});
     }
-   
+
     tokens.map(element =>{
         if(element.user!=user){
             axios({
