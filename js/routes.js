@@ -1,20 +1,18 @@
-
-export const post_tweet = (user, tweet, token) =>{
-    fetch('http://localhost:5000/tweets/post',{
+export const post_tweet = async (user, tweet, token) =>{
+    fetch('http://localhost:3000/tweets/post',{
         method: 'post',
         body: JSON.stringify({
             user: user,
-            tweet:tweet,
+            tweet: tweet,
             token: token
         }),
         headers: {
             "accept": "application/json",
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json());
-
-}
- 
-
-
-
+    }).then(response =>{
+        fetch('./index.html').then(response => response.text())    
+    })
+    .catch((err)=>{
+        console.log('An error occurred while retrieving token. ', err);
+    })};
