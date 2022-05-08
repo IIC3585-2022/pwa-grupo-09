@@ -18,11 +18,13 @@ self.addEventListener('install', (event) => {
 });
 
 /* Serve cached content when offline */
+
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        return response || fetch(event.request);
-      })
-  );
+  event.respondWith(async function() {
+    try {
+      return await fetch(event.request);
+    } catch (err) {
+      return caches.match(event.request);
+    }
+  }());
 });

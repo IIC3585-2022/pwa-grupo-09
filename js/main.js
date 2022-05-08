@@ -1,3 +1,5 @@
+import {post_tweet} from './routes.js'
+
 window.onload = () => {
   'use-strict';
 
@@ -10,7 +12,7 @@ window.onload = () => {
 const button = $("#tweet-btn");
 let inputs = [];
 
-const showInput = (input) => {
+const showInput = (input, user) => {
   let toBeShown = $(`
     <div id="tweet-text" class="d-flex flex-column tweet-text">
       <div class="d-flex">
@@ -18,7 +20,7 @@ const showInput = (input) => {
         <div class="d-flex flex-column">
           <div class="d-flex">
             <p class="bold">Usuario</p>
-            <p class="tweet-account">@usuario</p>
+            <p class="tweet-account">${user}</p>
           </div>
           <p>${input}</p>
         </div>
@@ -41,10 +43,13 @@ const showInput = (input) => {
 button.click((e) => {
   $('#empty-tweet').remove()
   let input = $('#tweet-input')[0].value;
-  if (input === ""){
+  let user = $("#user_input")[0].value;
+  if (input === "" && user == ""){
     return false;
   };
-  showInput(input);
+  showInput(input, user);
   $('#tweet-input')[0].value = "";
+  $("#user_input")[0].value = "";
+  post_tweet(user, input, 'asdgfhjgfds');
   return true;
 });
