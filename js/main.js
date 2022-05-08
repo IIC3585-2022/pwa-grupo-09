@@ -96,7 +96,6 @@ button.click(async (e) => {
     return false};
   $('#tweet-input')[0].value = "";
   post_tweet(user, input, Token);
-
   showInput(input, user);
   return true;
 });
