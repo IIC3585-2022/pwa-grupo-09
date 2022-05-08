@@ -5,6 +5,9 @@ let filesToCache = [
   '/index.html',
   '/css/style.css',
   '/js/main.js',
+  '/js/routes.js',
+  '/images',
+  'favicon.ico'
 ];
 
 /* Start the service worker and cache all of the app's content */
